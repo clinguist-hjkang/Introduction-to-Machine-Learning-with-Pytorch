@@ -1,0 +1,229 @@
+# Supervised Learning
+
+- **Linear Regression**
+  - Gradient descent
+    - We move in the other direction and see that the error decreased, so we pick this one and stay there. Repeat these steps many times over and over every time descending the error a bit until we get to the perfect line.
+    - The way to descend is to take the derivative (or gradient) of error function with respect to the weights.
+      - The gradient descent step uses 2 derivatives, namely the derivative with respect to the slope and the derivative with respect to the y-intercept. 
+    - This gradient is going to point to a direction where the function increases the most. Therefore, the negative of this gradient is going to point down in the direction where the function decreases the most.
+      - Gradient step: $w_i \rightarrow w_i - \alpha\frac{\partial}{\partial w_i}Error$
+    - Types of Gradient Descent
+      - The squared (or absolute) trick, when applied to a point, gives us some values to add to the weights of the model. 
+      - Batch Gradient Descent 뭉테기 업뎃
+        - We can calculate these values for all the points, add them, and then update the weights with the sum of these values.
+      - Stochastic Gradient Descent 하나하나 업뎃
+        - Or we can add these values, update our weights, and then apply the squared (or absolute) trick on the next point.
+      - Mini-batch Gradient Descent
+        - If your data is huge, both are a bit slow, computationally. 
+        - The best way to do linear regression, is to split your data into many small batches. Each batch, with roughly the same number of points. Then, use each batch to update your weights.
+    - Fitting a line through data
+      - Using the absolute or square trick
+        - Absolute trick 
+          - Moves the line by a constant value, doesn't take into account how far the point is from the line
+        - Square trick
+          - Moves the line more or less depending on the distance to the point from the line
+      - Minimizing any of the error functions
+        - Mean Absolute Error
+          - $Error = \frac{1}{m}\sum\_{i=m}^{m}\lvert y - \hat{y} \rvert$
+        - Mean Squared Error
+          - $Error = \frac{1}{2m}\sum\_{i=m}^{m}(y - \hat{y})^2$
+          - Always going to be non-negative
+    - Warnings
+      - Linear regression comes with a set of implicit assumptions and is not the best model for every situation.
+      - 1\) Linear Regression Works Best When the Data is Linear.
+      - 2\) Linear Regression is Sensitive to Outliers.
+    - Polynomial regression
+      - Instead of considering lines, we consider higher degree polynomials. 
+      - We take the derivative with respect to the N variables and use gradient descent to modify these N weights in order to minimize the error.
+    - Regularization
+    -  It's a very useful technique to improve our models and make sure they don't overfit.
+    - L1 regularization
+      - Takes the absolute value of the coefficients of the model and adds them to the error
+    - L2 regularization
+      - Adds the squares of the coefficients
+    - The lambda (λ) Parameter
+      - Using λ, we multiply the error that comes from the complexity of the model to adjust the overall error.
+      - If we have a large lambda then we're punishing complexity by a large amount and we're picking a simpler model. 
+      - Whereas if we have a small lambda, we're punishing complexity by a small amount, so we're okay with having more complex models.
+    - L1 or L2 regularization?
+      - Efficiency
+        - L1 regularization is actually computationally inefficient even though it seems simpler because it has no squares, but actually, those absolute values are hard to differentiate.
+        - Whereas, L2 regularization squares have very nice derivatives. So, these are easy to deal with computation.
+      - Sparse data
+        - L1 regularization is faster than L2 regularization. If you have a thousand columns of data but only 10 are relevant and the rest are mostly zeros, then L1 is faster.
+        - L2 is better for non-sparse outputs which are when the data is more equally distributed among the columns.
+      - Feature selection
+        - L1 has one huge benefit which is that it gives us feature selection. 
+          - So let's say, we have again, data in a thousand columns but really only 10 of the matters, and the rest are mostly noise. So, L1 will detect this and will make the relevant columns into zeroes.
+        - L2 on the other hand won't do this and it just takes the columns and treat them similarly.
+    - Feature scaling
+      - Standardizing
+        - Computed by taking each value of your column, subtracting the mean of the column, and then dividing by the standard deviation of the column.
+          - Each value is a comparison to the mean of the column, and a new, standardized value can be interpreted as the number of standard deviations the original height was from the mean.
+        - This type of feature scaling is by far the most common of all techniques.
+      - Normalizing
+        - Data are scaled between 0 and 1
+      - When Should I Use Feature Scaling?
+        - When your algorithm uses a distance-based metric to predict
+          - e.g., Support Vector Machine, K-nearest neighbors
+        - When you incorporate regularization
+          - The penalty on particular coefficients in regularized linear regression techniques depends largely on the scale associated with the features. 
+        - Feature scaling can speed up convergence of your machine learning algorithms
+- **Decision Trees**
+  - Entropy
+    - The notion of entropy can also work in probability.
+      - How many balls are allowed to move around if we put them in a line?
+      - The more rigid the set is or the more homogeneous, the less entropy you'll have, and vice versa.
+    - Another way to see entropy is in terms of knowledge.
+      - Low entropy: high knowledge
+      - Medium entropy: medium knowledge
+      - High entropy: low knowledge
+    - Logarithms are commonly used when working with entropy.
+      - By turning the product into a summation, we can spread the 2 spikes (near 0 and 1) into something flatter and wider.
+      - The logarithm of a product is the sum of the logarithms
+        - $log(ab) = log(a) + log(b)$
+  - Information gain
+    - It's the difference between the entropy of the parent and the average entropy of the children. 
+  - Hyperparameters
+    - Maximum Depth
+      - "max_depth"
+      - The largest possible length between the root to a leaf
+    - Minimum number of samples to split
+      - "min_samples_split"
+      - The minimum number of samples required to split an internal node.
+      - It doesn't control the minimum size of leaves
+    - Minimum number of samples per leaf
+      - "min_samples_leaf"
+      - The minimum number of samples allowed in a leaf.
+- **Naive Bayes**
+  - Bayes Theorem
+    -
+  - Naive Bayes Algorithm
+    - Let's look at the probability of two events happening together $P(A\&B)$. We can also read this as $P(A\capB)$. And we're going to say that this is the product of $P(A)P(B)$.
+    - This only happens when the two events are independent. (assumption)
+    -
+  - Advantages
+    - It can handle an extremely large number of features.
+    - It performs well even with the presence of irrelevant features and is relatively unaffected by them.
+    - It works well right out of the box and tuning its parameters is rarely ever necessary, except usually in cases where the distribution of the data is known.
+    - It rarely ever overfits the data.
+    - Its model training and prediction times are very fast for the amount of data it can handle.
+- **Support Vector Machine**
+  - Minimizing distances
+  - Error functions and the use of the perceptron algorithm
+    - Classification: we want the boundary to be as far away from the points as possible → maximize the distance between the two boundaries
+    - **Error function: classification error + margin error** 
+      - classification error
+        - 'punish' the misclassified points
+        - 'punish' the points in the margin
+      - margin error: we want the margin to be as wide as possible
+        - large margin → small error  
+        - small margin → large error
+      - goal: minimize the error using gradient descent
+  - The C (hyper-)parameter
+    - The C parameter is a constant, it determines how flexible we are willing to be with the classification error, i.e., the points that fall on the wrong side of the dividing boundary. 
+      - Error = **C** Classification Error + Margin Error
+    - The value of C ranges between 0 and infinity.
+    - If we have a very *large* C, then the error is mostly the classification error, so we're focusing more on correctly classifying our points than on finding a good margin.
+      - large C, classifies points well, may have a small margin
+    - If the C is very *small*, then the error is mostly a margin error, so we're focusing mostly on a large margin than on classifying the points correctly.
+      - small C, large margin, may make classification errors
+  - Polynomial Kernel
+    - Sometimes a linear function cannot separate our points. We can use a higher dimension kernel trick to separate our data. 
+    - This can be done in two ways. They're actually the same method, and this the kernel method. 
+      - Circular method
+        - The circle method sacrifices the linearity, and instead of using a linear equation, uses a higher degree polynomial equation.
+      - Building method
+        - The building method sacrifices the dimensionality of the data.
+        - Imagine we're in a two-dimensional world, and we have a set of points that cannot be separated linearly. So, we embed our dataset into a five-dimensional world by taking the point $(x,y)$, and sending it to the point $(x, y, x^2, xy, y^2)$. Now, the data lives in higher dimensions, and maybe we're lucky that in here, we can actually separate it with a four-dimensional hyperplane. Well, now, we go back and project that to the two-dimensional world and we get a polynomial of degree two, which will nicely separate our data. 
+    - cf. linear kernel: we're looking at all the functions that we can build as linear combinations of these two variables. We can create any line.
+  - Radial Basis Functions (RBF) Kernel
+    - This process has us pull points off of the line and plot them on a "mountain range," split the points on the range, and then translate them back to their original position with multiple cut points.
+    - The Gamma parameter
+      - A large gamma will move us to a narrow curve.
+        - In higher dimensions, a large gamma will give us some pointy mountains.
+      - A small gamma would give us a wide curve. 
+        - In higher dimensions, a small gamma would give us wider mountains
+- **Ensemble Methods**
+  - Ensembles
+    - How we can combine the models in a way that makes the combination of these models better at predicting than the individual models?
+    - There are 2 competing variables in finding a well-fitting machine learning model.
+      - **Bias**
+        - Bias is the difference between the average prediction of our model and the correct value which we are trying to predict. 
+        - When a model has a high bias, this means that means it doesn't do a good job of bending to the data. 
+        - An example of an algorithm that usually has a high bias is linear regression.
+      - **Variance**
+        - Variance is the variability of model prediction for a given data point or a value which tells us spread of our data.
+        - When a model has high variance, this means that it changes drastically to meet the needs of every point in our dataset. 
+        - An example of an algorithm that tends to have high variance and low bias is a decision tree (especially decision trees with no early stopping parameters).
+  - **Random Forest**
+    - The problem with decision trees: they tend to overfit a lot and it doesn't generalize well to the data.
+    - To solve the problem, we pick some of the columns randomly from the data, build a decision tree in those, and do it again. 
+  - **Bagging**: bootstrapping and aggregating
+    - Fits base classifiers/regressors each on random subsets of the original dataset and then aggregate their individual predictions (either by voting or by averaging) to form a final prediction.
+      - We'll just take subsets of it and train a weak learner on each one of these subsets. Then we'll combine these learners by voting. 
+    - **We are completely allowed to repeat points among our subsets and to even not consider some of the points at all.**
+  - **Boosting**: AdaBoost
+    - Begins by fitting a classifier on the original dataset and then fits additional copies of the classifier on the same dataset but where the weights of incorrectly classified instances are adjusted such that subsequent classifiers focus more on difficult cases.
+      - We fit our first learner in order to maximize accuracy, or equivalently, minimize the number of errors.
+      - The second learner needs to fix the mistakes that the first one has made. We'll punish the model more if it misses these points. So, the next weak learner needs to focus on these more.
+      - Our third weak learner tries really hard to correctly classify the big points.
+- **Model Evaluation Metrics**
+  - Testing your models
+    - We'll use a training set to train the model, and then we test our results in the testing set. 
+    - Thou shalt never use your testing data for training.
+  - Confusion Matrix
+    - It is a simple table that will describe the performance of a model. 
+  - Accuracy
+    - The ratio between the number of correctly classified points and the number of total points.
+    - Optimizing on the only accuracy can be misleading in how well your model is truly performing.
+  - False Negatives and Positives
+    - e.g., The medical model as we saw is okay with false positives but not with false negatives, since we're okay misdiagnosing some patients as sick as long as we find all the sick people.
+    - e.g., The email model on the other hand is okay with false negatives but not with false positives, since we don't necessarily need to find all the spam emails but one thing is for sure, that if we do label something as spam, it better be spam.
+  - Precision
+    - Precision focuses on the predicted "positive" values in your dataset. 
+    - Out of all the points predicted to be positive, how many of them were actually positive?
+  - Recall
+    - Recall focuses on the actual "positive" values in your dataset.
+    - Out of the points that are labeled positive, how many of them were correctly predicted as positive?
+  - F1 Score
+    - Harmonic mean of precision and recall
+      - Imagine we have two numbers, X and Y, with X < Y. And we have their arithmetic mean, which is the average, (X+Y)/2. And we have something called the harmonic mean which is defined by $\frac{2xy}{x+y}$.
+        - It's a mathematical fact that the harmonic mean is always less than the arithmetic mean.
+    - It is closer to the smallest value between precision and recall.
+  - F-beta Score
+    - The smaller the beta, the more towards precision that we get.
+    - The larger the beta, the more towards recall that we get.
+    - You can see that the $\beta(beta)$ parameter controls the degree to which precision is weighted into the F score, which allows precision and recall to be considered simultaneously.
+    - The most common value for beta is 1, as this is where you are finding the harmonic average between precision and recall.
+  - ROC (Receiver Operator Characteristic) curve
+    - By finding different thresholds for our classification metrics, we can measure the area under the curve (where the curve is known as a ROC curve). 
+    - When the AUC is higher (closer to 1), this suggests that our model performance is better than when our metric is close to 0.
+  - Regression Metrics
+    - Mean Absolute Error (MAE)
+      - You want to find a model that minimizes this value.
+      - This is a useful metric to optimize when the value you are trying to predict follows a skewed distribution.
+        - Outliers will not influence models attempting to optimize on this metric as much as if you use the mean squared error.
+    - Mean Squared Error (MSE)
+      - You want to find a model that minimizes this value.
+      - The mean squared error is by far the most used metric for optimization in regression problems.
+    - R2 score
+      - It is frequently interpreted as the 'amount of variability captured by a model'.
+    - MSE vs. R2
+      - MSE: the average amount you miss across all the points 
+      - R2: the amount of the variability in the points that you capture with a model
+      - Optimizing a model to have the lowest MSE will also optimize a model to have the highest R2 value.
+- **Training and Tuning**
+  - Types of errors
+    - Underfitting: high bias
+      - high training and testing errors
+    - Overfitting: high variance
+      - a very low training error, but a high testing error
+  - Model complexity graph
+  - Cross validation
+    - The **training set** will be used for training the parameters. 
+    - The **cross-validation set** will be used for making decisions about the model such as the degree of the polynomial.
+    - The **testing set** will be used for the final testing of the model.
+  - Learning curves
+    - By looking at the shape of the learning curves, you can tell between underfitting, overfitting, and just right. We're going to try and fit three models.
+  - Grid search
