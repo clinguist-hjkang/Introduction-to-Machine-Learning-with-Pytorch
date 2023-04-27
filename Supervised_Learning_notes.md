@@ -97,11 +97,9 @@
       - The minimum number of samples allowed in a leaf.
 - **Naive Bayes**
   - Bayes Theorem
-    -
   - Naive Bayes Algorithm
-    - Let's look at the probability of two events happening together $P(A\&B)$. We can also read this as $P(A\capB)$. And we're going to say that this is the product of $P(A)P(B)$.
+    - Let's look at the probability of two events happening together $P(A \& B)$. We can also read this as $P(A \cap B)$. And we're going to say that this is the product of $P(A)P(B)$.
     - This only happens when the two events are independent. (assumption)
-    -
   - Advantages
     - It can handle an extremely large number of features.
     - It performs well even with the presence of irrelevant features and is relatively unaffected by them.
